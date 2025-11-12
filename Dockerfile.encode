@@ -1,0 +1,23 @@
+FROM python:3.11-slim
+
+ENV PYTHONUNBUFFERED=1
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install uv
+ADD https://astral.sh/uv/install.sh /tmp/uv-install.sh
+RUN sh /tmp/uv-install.sh && rm /tmp/uv-install.sh
+ENV PATH="/root/.local/bin:${PATH}"
+
+WORKDIR /app
+
+# Copy project files (pyproject, code, etc.)
+COPY . /app
+
+# Install Python dependencies
+RUN uv sync --frozen
+
+# Run the script with google-cloud-storage temporarily added
+ENTRYPOINT ["uv", "run", "--with", "google-cloud-storage", "python", "bpe_encoding.py"]

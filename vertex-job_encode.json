@@ -1,0 +1,35 @@
+{
+  "workerPoolSpecs": [
+    {
+      "machineSpec": {
+        "machineType": "n2-highmem-8"
+      },
+      "replicaCount": 1,
+      "containerSpec": {
+        "imageUri": "eu.gcr.io/digital-proton-473814-m9/bpe-training:encoder-7496655",
+        "env": [
+          {
+            "name": "CORPUS_PATH",
+            "value": "gs://bpe-training-mfp/data/TinyStoriesV2-GPT4-train.txt"
+          },
+          {
+            "name": "VOCAB_PATH",
+            "value": "gs://bpe-training-mfp/output/TinyStoriesV2-GPT4-train_serialization_vocab_20251010_112414.json"
+          },
+          {
+            "name": "MERGE_PATH",
+            "value": "gs://bpe-training-mfp/output/TinyStoriesV2-GPT4-train_serialization_merge_20251010_112414.json"
+          },
+          {
+            "name": "ARTIFACT_PATH",
+            "value": "gs://bpe-training-mfp/output_encode"
+          },
+          {
+            "name": "LOG_LEVEL",
+            "value": "INFO"
+          }
+        ]
+      }
+    }
+  ]
+}
